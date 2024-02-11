@@ -1,3 +1,4 @@
+import 'package:campuscupid/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:random_avatar/random_avatar.dart';
@@ -7,6 +8,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = supabase.auth.currentUser;
+    final fullName = user?.userMetadata?['full_name'];
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -17,12 +20,13 @@ class HomePage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
+            Text(fullName)
           ],
         ),
       ),
