@@ -13,8 +13,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final user = supabase.auth.currentUser;
-    final fullName = user?.userMetadata?['full_name'];
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -25,13 +23,12 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: true,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           children: [
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
-            Text(fullName)
           ],
         ),
       ),
