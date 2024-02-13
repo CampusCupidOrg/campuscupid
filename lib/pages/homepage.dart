@@ -1,4 +1,6 @@
 import 'package:campuscupid/main.dart';
+import 'package:campuscupid/pages/accountpage.dart';
+import 'package:campuscupid/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:random_avatar/random_avatar.dart';
@@ -11,6 +13,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int currentPageIndex = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _fetchUsers();
+  }
+
+  Future<void> _fetchUsers() async {
+    final response = await supabase
+        .from('profiles')
+        .select('username')
+        .textSearch('username', "'Pra' & 'pra'", config: 'english');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,16 +40,14 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
-      ),
+      body: <Widget>[const SearchPage(), const AccountPage()][currentPageIndex],
       bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          // Respond to item tap
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
         destinations: const <Widget>[
           NavigationDestination(
             icon: Icon(Icons.list_alt_outlined),
@@ -40,21 +55,11 @@ class _HomePageState extends State<HomePage> {
           ),
           NavigationDestination(
             icon: Badge(child: Icon(Icons.notifications_sharp)),
-            label: 'Notifications',
-          ),
-          NavigationDestination(
-            icon: Badge(
-              label: Text('2'),
-              child: Icon(Icons.messenger_sharp),
-            ),
-            label: 'Messages',
+            label: 'Profile',
           ),
         ],
         backgroundColor: Colors.white,
         elevation: 0.0,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
       ),
     );
   }
