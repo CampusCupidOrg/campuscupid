@@ -11,8 +11,9 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  final _usernameController = TextEditingController();
+  final _nameController = TextEditingController();
   final _regnoController = TextEditingController();
+
   String? _avatarUrl;
   var _loading = true;
 
@@ -26,8 +27,8 @@ class _AccountPageState extends State<AccountPage> {
       final userId = supabase.auth.currentUser!.id;
       final data =
           await supabase.from('profiles').select().eq('id', userId).single();
-      _usernameController.text = (data['username'] ?? '') as String;
-      _regnoController.text = (data['website'] ?? '') as String;
+      _nameController.text = (data['full_name'] ?? '') as String;
+      _regnoController.text = (data['regno'] ?? '') as String;
       _avatarUrl = (data['avatar_url'] ?? '') as String;
     } on PostgrestException catch (error) {
       SnackBar(
@@ -53,13 +54,13 @@ class _AccountPageState extends State<AccountPage> {
     setState(() {
       _loading = true;
     });
-    final userName = _usernameController.text.trim();
-    final website = _regnoController.text.trim();
+    final fullname = _nameController.text.trim();
+    final regno = _regnoController.text.trim();
     final user = supabase.auth.currentUser;
     final updates = {
       'id': user!.id,
-      'username': userName,
-      'website': website,
+      'full_name': fullname,
+      'regno': regno,
       'updated_at': DateTime.now().toIso8601String(),
     };
     try {
@@ -149,7 +150,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _nameController.dispose();
     _regnoController.dispose();
     super.dispose();
   }
@@ -166,13 +167,13 @@ class _AccountPageState extends State<AccountPage> {
                 Avatar(imageUrl: _avatarUrl, onUpload: _onUpload),
                 SizedBox(height: 18),
                 TextFormField(
-                  controller: _usernameController,
-                  decoration: const InputDecoration(labelText: 'User Name'),
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Your Name'),
                 ),
                 const SizedBox(height: 18),
                 TextFormField(
                   controller: _regnoController,
-                  decoration: const InputDecoration(labelText: 'Website'),
+                  decoration: const InputDecoration(labelText: 'Reg. No.'),
                 ),
                 const SizedBox(height: 18),
                 ElevatedButton(
