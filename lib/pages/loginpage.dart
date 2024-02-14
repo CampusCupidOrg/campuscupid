@@ -23,15 +23,22 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
-      await supabase.auth.signInWithOtp(
-        email: _emailController.text.trim(),
-        emailRedirectTo: 'io.supabase.flutterquickstart://login-callback/',
-      );
-      if (mounted) {
+      if (_emailController.text.isEmpty ||
+          !_emailController.text.trim().endsWith('@srmist.edu.in')) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Check your email for a login link!')),
+          const SnackBar(content: Text('Enter you SRM email')),
         );
-        _emailController.clear();
+      } else {
+        await supabase.auth.signInWithOtp(
+          email: _emailController.text.trim(),
+          emailRedirectTo: 'io.supabase.flutterquickstart://login-callback/',
+        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Check your email for a login link!')),
+          );
+          _emailController.clear();
+        }
       }
     } on AuthException catch (error) {
       SnackBar(
