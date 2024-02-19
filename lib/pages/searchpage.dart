@@ -1,3 +1,4 @@
+import 'package:campuscupid/components/userCard.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -9,8 +10,9 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  List<String>? _results;
+  List<Map<String, String>>? _results;
   String _input = '';
+  bool _expand = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +32,14 @@ class _SearchState extends State<Search> {
                   enabledBorder: OutlineInputBorder())),
         ),
       ),
-      const SizedBox(
-        height: 200,
-      ),
       Expanded(
         child: (_results ?? []).isNotEmpty
             ? ListView.builder(
                 itemCount: _results!.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_results![index]),
-                  );
+                  return UserCard(
+                      name: _results![index]['full_name'],
+                      imageUrl: _results![index]['avatar_url']);
                 },
               )
             : Padding(
@@ -69,20 +68,25 @@ class _SearchState extends State<Search> {
 
     setState(() {
       _results = results;
+      _expand = true;
     });
   }
 
-  Future<List<String>> _searchUsers(String name) async {
+  Future<List<Map<String, String>>> _searchUsers(String name) async {
     final result = await Supabase.instance.client
         .from('profiles')
-        .select('full_name')
+        .select('full_name,avatar_url')
         .textSearch('fts', "$name:*");
 
-    final List<String> names = [];
+    print(result);
+    final List<Map<String, String>> profiles = [];
     for (var row in result) {
-      names.add(row['full_name'] as String);
+      profiles.add({
+        'full_name': row['full_name'] as String,
+        'avatar_url': row['avatar_url'] as String,
+      });
     }
 
-    return names;
+    return profiles;
   }
 }
