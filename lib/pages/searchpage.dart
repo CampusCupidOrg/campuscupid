@@ -15,41 +15,41 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Search Users'),
-        ),
         body: Column(children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: TextFormField(
-                onChanged: _onSearchFieldChanged,
-                autocorrect: false,
-                autofocus: true,
-                decoration: const InputDecoration(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+              onChanged: _onSearchFieldChanged,
+              autocorrect: false,
+              autofocus: true,
+              decoration: const InputDecoration(
                   hintText: "Name",
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                )),
-          ),
-          Expanded(
-            child: (_results ?? []).isNotEmpty
-                ? GridView.count(
-                    childAspectRatio: 1,
-                    crossAxisCount: 2,
-                    padding: const EdgeInsets.all(2.0),
-                    mainAxisSpacing: 1.0,
-                    crossAxisSpacing: 1.0,
-                    children: _results!.map((r) => Text(r)).toList())
-                : Padding(
-                    padding: const EdgeInsets.only(top: 200),
-                    child: _results == null
-                        ? Container()
-                        : Text("No results for '$_input'")),
-          )
-        ]));
+                  border: OutlineInputBorder(),
+                  enabledBorder: OutlineInputBorder())),
+        ),
+      ),
+      const SizedBox(
+        height: 200,
+      ),
+      Expanded(
+        child: (_results ?? []).isNotEmpty
+            ? ListView.builder(
+                itemCount: _results!.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(_results![index]),
+                  );
+                },
+              )
+            : Padding(
+                padding: const EdgeInsets.only(top: 200),
+                child: _results == null
+                    ? Container()
+                    : Text("No results for '$_input'")),
+      )
+    ]));
   }
 
   /// Handles user entering text into the search field. We kick off a search for
