@@ -34,6 +34,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: <Widget>[const Search(), const AccountPage()][currentPageIndex],
       bottomNavigationBar: NavigationBar(
+        selectedIndex: currentPageIndex,
+        indicatorColor: Colors.pink[100],
         onDestinationSelected: (int index) {
           // Respond to item tap
           setState(() {
@@ -42,11 +44,11 @@ class _HomePageState extends State<HomePage> {
         },
         destinations: const <Widget>[
           NavigationDestination(
-            icon: Icon(Icons.list_alt_outlined),
+            icon: Icon(Icons.list),
             label: 'Crush List',
           ),
           NavigationDestination(
-            icon: Badge(child: Icon(Icons.notifications_sharp)),
+            icon: Icon(Icons.notifications_sharp),
             label: 'Profile',
           ),
         ],
