@@ -78,7 +78,6 @@ class _SearchState extends State<Search> {
         .select('full_name,avatar_url')
         .textSearch('fts', "$name:*");
 
-    print(result);
     final List<Map<String, String>> profiles = [];
     for (var row in result) {
       profiles.add({
