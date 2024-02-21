@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class UserCard extends StatefulWidget {
   final String? name;
   final String? imageUrl;
+  final String? id;
 
-  UserCard({Key? key, required this.name, required this.imageUrl})
+  UserCard(
+      {Key? key, required this.name, required this.imageUrl, required this.id})
       : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class _UserCardState extends State<UserCard> {
             CircleAvatar(backgroundImage: NetworkImage(widget.imageUrl ?? '')),
         title: Text(widget.name ?? ''),
         onTap: () {
-          print(widget.name);
+          print(widget.id);
         },
       ),
     );

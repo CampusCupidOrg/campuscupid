@@ -38,8 +38,10 @@ class _SearchState extends State<Search> {
                 itemCount: _results!.length,
                 itemBuilder: (context, index) {
                   return UserCard(
-                      name: _results![index]['full_name'],
-                      imageUrl: _results![index]['avatar_url']);
+                    name: _results![index]['full_name'],
+                    imageUrl: _results![index]['avatar_url'],
+                    id: _results![index]['id'],
+                  );
                 },
               )
             : Padding(
@@ -75,7 +77,7 @@ class _SearchState extends State<Search> {
   Future<List<Map<String, String>>> _searchUsers(String name) async {
     final result = await Supabase.instance.client
         .from('profiles')
-        .select('full_name,avatar_url')
+        .select('full_name,avatar_url,id')
         .textSearch('fts', "$name:*");
 
     final List<Map<String, String>> profiles = [];
@@ -83,6 +85,7 @@ class _SearchState extends State<Search> {
       profiles.add({
         'full_name': row['full_name'] as String,
         'avatar_url': row['avatar_url'] as String,
+        'id': row['id'] as String,
       });
     }
 
