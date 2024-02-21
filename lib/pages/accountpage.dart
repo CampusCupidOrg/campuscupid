@@ -169,19 +169,29 @@ class _AccountPageState extends State<AccountPage> {
                   backgroundImage: NetworkImage(_avatarUrl!),
                 ),
                 SizedBox(height: 18),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Your Name'),
-                ),
-                const SizedBox(height: 18),
-                TextFormField(
-                  controller: _regnoController,
-                  decoration: const InputDecoration(labelText: 'Reg. No.'),
-                ),
-                const SizedBox(height: 18),
-                ElevatedButton(
-                  onPressed: _loading ? null : _updateProfile,
-                  child: Text(_loading ? 'Saving...' : 'Update'),
+
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _nameController,
+                        decoration:
+                            const InputDecoration(labelText: 'Your Name'),
+                      ),
+                      const SizedBox(height: 18),
+                      TextFormField(
+                        controller: _regnoController,
+                        decoration:
+                            const InputDecoration(labelText: 'Reg. No.'),
+                      ),
+                      const SizedBox(height: 18),
+                      ElevatedButton(
+                        onPressed: _loading ? null : _updateProfile,
+                        child: Text(_loading ? 'Saving...' : 'Update'),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 18),
                 TextButton(onPressed: _signOut, child: const Text('Sign Out')),

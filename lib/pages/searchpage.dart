@@ -1,5 +1,6 @@
 import 'package:campuscupid/components/userCard.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Search extends StatefulWidget {
@@ -12,45 +13,56 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   List<Map<String, String>>? _results;
   String _input = '';
-  bool _expand = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-              onChanged: _onSearchFieldChanged,
-              autocorrect: false,
-              autofocus: true,
-              decoration: const InputDecoration(
-                  hintText: "Name",
-                  border: OutlineInputBorder(),
-                  enabledBorder: OutlineInputBorder())),
+        appBar: AppBar(
+          elevation: 0.0,
+          title: Text(
+            'Campus Cupid',
+            style: GoogleFonts.pacifico(
+                fontSize: 30, color: Color.fromARGB(221, 58, 58, 58)),
+          ),
+          centerTitle: true,
         ),
-      ),
-      Expanded(
-        child: (_results ?? []).isNotEmpty
-            ? ListView.builder(
-                itemCount: _results!.length,
-                itemBuilder: (context, index) {
-                  return UserCard(
-                    name: _results![index]['full_name'],
-                    imageUrl: _results![index]['avatar_url'],
-                    id: _results![index]['id'],
-                  );
-                },
-              )
-            : Padding(
-                padding: const EdgeInsets.only(top: 200),
-                child: _results == null
-                    ? Container()
-                    : Text("No results for '$_input'")),
-      )
-    ]));
+        body: Column(children: [
+          SizedBox(
+            height: 100,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                  onChanged: _onSearchFieldChanged,
+                  autocorrect: false,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                      hintText: "Name",
+                      border: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder())),
+            ),
+          ),
+          Expanded(
+            child: (_results ?? []).isNotEmpty
+                ? ListView.builder(
+                    itemCount: _results!.length,
+                    itemBuilder: (context, index) {
+                      return UserCard(
+                        name: _results![index]['full_name'],
+                        imageUrl: _results![index]['avatar_url'],
+                        id: _results![index]['id'],
+                      );
+                    },
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(top: 200),
+                    child: _results == null
+                        ? Container()
+                        : Text("No results for '$_input'")),
+          ),
+        ]));
   }
 
   /// Handles user entering text into the search field. We kick off a search for
@@ -70,7 +82,6 @@ class _SearchState extends State<Search> {
 
     setState(() {
       _results = results;
-      _expand = true;
     });
   }
 

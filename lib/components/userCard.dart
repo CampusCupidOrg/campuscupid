@@ -16,14 +16,19 @@ class UserCard extends StatefulWidget {
 class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        leading:
-            CircleAvatar(backgroundImage: NetworkImage(widget.imageUrl ?? '')),
-        title: Text(widget.name ?? ''),
-        onTap: () {
-          print(widget.id);
-        },
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+      child: Card(
+        child: ListTile(
+          leading: CircleAvatar(
+              backgroundImage: NetworkImage(widget.imageUrl ?? '')),
+          title: Text(widget.name ?? ''),
+          trailing: IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                print('Add ${widget.id}');
+              }),
+        ),
       ),
     );
   }
