@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:campuscupid/main.dart';
 import 'package:flutter/material.dart';
+import 'package:convert/convert.dart';
+import 'package:crypto/crypto.dart';
 
 class UserCard extends StatefulWidget {
   final String? name;
@@ -14,6 +19,18 @@ class UserCard extends StatefulWidget {
 }
 
 class _UserCardState extends State<UserCard> {
+  Future<void> _addCrush() async {
+    final curr_user = utf8.encode(supabase.auth.currentUser!.id);
+    final crush = utf8.encode(widget.id!);
+    var output = AccumulatorSink<Digest>();
+    var input = sha256.startChunkedConversion(output);
+    input.add(curr_user);
+    input.add(crush);
+    input.close();
+    var digest = output.events.single;
+    print(digest);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,10 +41,9 @@ class _UserCardState extends State<UserCard> {
               backgroundImage: NetworkImage(widget.imageUrl ?? '')),
           title: Text(widget.name ?? ''),
           trailing: IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                print('Add ${widget.id}');
-              }),
+            icon: Icon(Icons.add),
+            onPressed: _addCrush,
+          ),
         ),
       ),
     );
