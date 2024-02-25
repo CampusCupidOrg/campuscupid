@@ -4,6 +4,7 @@ import 'package:campuscupid/main.dart';
 import 'package:flutter/material.dart';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserCard extends StatefulWidget {
   final String? name;
@@ -28,7 +29,15 @@ class _UserCardState extends State<UserCard> {
     input.add(crush);
     input.close();
     var digest = output.events.single;
-    print(digest);
+    final send = {
+      'user_id': supabase.auth.currentUser!.id,
+      'crush_id': widget.id,
+      'match_hash': digest.toString()
+    };
+
+    // Upload send object to Supabase table called 'matches'
+    final response = await supabase.from('matches').upsert([send]);
+    print(response);
   }
 
   @override
