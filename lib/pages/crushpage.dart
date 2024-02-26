@@ -64,7 +64,30 @@ class _CrushState extends State<Crush> {
   }
 
   Future<List<Map<String, String>>> _getCrushes() async {
-    // TODO: Get crushes from Supabase
-    return [];
+    final response = await supabase
+        .from('profiles')
+        .select('full_name,avatar_url,id,matches(crush_id)')
+        .eq('id', supabase.auth.currentUser!.id);
+
+    List<String> crushes = [];
+    for (var row in response[0]['matches']) {
+      crushes.add(row['crush_id']);
+    }
+
+    final crushProfResponse = await supabase
+        .from('profiles')
+        .select('full_name,avatar_url,id')
+        .inFilter('id', crushes);
+
+    List<Map<String, String>> crushProfs = [];
+
+    for (var row in crushProfResponse) {
+      crushProfs.add({
+        'full_name': row['full_name'],
+        'avatar_url': row['avatar_url'],
+        'id': row['id']
+      });
+    }
+    return crushProfs;
   }
 }
