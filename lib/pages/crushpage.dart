@@ -2,6 +2,7 @@ import 'package:campuscupid/components/crushCard.dart';
 import 'package:campuscupid/main.dart';
 import 'package:campuscupid/pages/searchpage.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class Crush extends StatefulWidget {
   const Crush({super.key});
@@ -14,10 +15,11 @@ class _CrushState extends State<Crush> {
   List<Map<String, String>>? _results;
   @override
   void initState() {
-    // TODO: implement initState
-    _getCrushes().then((value) {
-      setState(() {
-        _results = value;
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      _getCrushes().then((value) {
+        setState(() {
+          _results = value;
+        });
       });
     });
     super.initState();
@@ -44,9 +46,9 @@ class _CrushState extends State<Crush> {
                       );
                     },
                   )
-                : Padding(
-                    padding: const EdgeInsets.only(top: 200),
-                    child: const Text('No Crushes Yet'),
+                : const Padding(
+                    padding: EdgeInsets.only(top: 200),
+                    child: Text('No Crushes Yet'),
                   ),
           ),
         ]),
@@ -54,9 +56,7 @@ class _CrushState extends State<Crush> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Search()),
-          );
+              context, MaterialPageRoute(builder: (context) => const Search()));
         },
         child: const Icon(Icons.add),
       ),
