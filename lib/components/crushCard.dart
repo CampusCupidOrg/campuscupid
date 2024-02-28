@@ -1,3 +1,4 @@
+import 'package:campuscupid/main.dart';
 import 'package:flutter/material.dart';
 
 class CrushCard extends StatefulWidget {
@@ -23,8 +24,23 @@ class _CrushCardState extends State<CrushCard> {
           leading: CircleAvatar(
               backgroundImage: NetworkImage(widget.imageUrl ?? '')),
           title: Text(widget.name ?? ''),
+          trailing: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () {
+                _deleteCrush(widget.id!);
+              }),
         ),
       ),
     );
   }
+}
+
+void _deleteCrush(String crush_id) async {
+  final response = await supabase
+      .from('matches')
+      .delete()
+      .eq('crush_id', crush_id)
+      .eq('user_id', supabase.auth.currentUser!.id);
+
+  print(response);
 }

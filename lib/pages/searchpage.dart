@@ -17,8 +17,15 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.done),
+        ),
         appBar: AppBar(
           elevation: 0.0,
+          automaticallyImplyLeading: false,
           title: Text(
             'Campus Cupid',
             style: GoogleFonts.pacifico(

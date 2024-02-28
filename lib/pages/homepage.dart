@@ -1,7 +1,5 @@
-import 'package:campuscupid/main.dart';
 import 'package:campuscupid/pages/accountpage.dart';
 import 'package:campuscupid/pages/crushpage.dart';
-import 'package:campuscupid/pages/searchpage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -32,7 +30,11 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: true,
       ),
-      body: <Widget>[const Crush(), const AccountPage()][currentPageIndex],
+      body: SafeArea(
+          child: <Widget>[
+        const Crush(),
+        const AccountPage()
+      ][currentPageIndex]),
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentPageIndex,
         indicatorColor: Colors.pink[100],
