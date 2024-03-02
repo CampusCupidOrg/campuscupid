@@ -1,4 +1,5 @@
 import 'package:campuscupid/components/userCard.dart';
+import 'package:campuscupid/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -96,6 +97,7 @@ class _SearchState extends State<Search> {
     final result = await Supabase.instance.client
         .from('profiles')
         .select('full_name,avatar_url,id')
+        .neq('id', supabase.auth.currentUser?.id as String)
         .textSearch('fts', "$name:*");
 
     final List<Map<String, String>> profiles = [];
