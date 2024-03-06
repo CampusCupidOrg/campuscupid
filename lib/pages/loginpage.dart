@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:campuscupid/main.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,7 +25,12 @@ class _LoginPageState extends State<LoginPage> {
       if (_emailController.text.isEmpty ||
           !_emailController.text.trim().endsWith('@srmist.edu.in')) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Enter you SRM email')),
+          SnackBar(
+            content: Text('Enter you SRM email'),
+            backgroundColor: Colors.red[400],
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
       } else {
         await supabase.auth.signInWithOtp(
@@ -33,7 +39,12 @@ class _LoginPageState extends State<LoginPage> {
         );
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Check your email for a login link!')),
+            const SnackBar(
+              content: Text('Check your email for a login link!'),
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+            ),
           );
           _emailController.clear();
         }
@@ -80,21 +91,81 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+      backgroundColor: Colors.pink[100],
+      appBar: AppBar(
+        backgroundColor: Colors.pink[100],
+        centerTitle: true,
+        toolbarHeight: 120,
+        title: Text(
+          'Campus Cupid',
+          style: GoogleFonts.pacifico(
+              fontSize: 56, color: Color.fromARGB(221, 27, 27, 27)),
+        ),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('Sign in via the magic link with your email below'),
-          const SizedBox(height: 18),
-          TextFormField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
+          Text(
+            "Sign Up",
+            style: GoogleFonts.pacifico(
+                fontSize: 56, color: Color.fromARGB(221, 27, 27, 27)),
           ),
-          const SizedBox(height: 18),
-          ElevatedButton(
-            onPressed: _isLoading ? null : _signIn,
-            child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
+          SizedBox(
+            height: 48,
           ),
+          Icon(Icons.heart_broken_sharp, size: 100, color: Colors.red[900]),
+          SizedBox(
+            height: 48,
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                const Text(
+                  'Sign in via the magic link with your email below',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: TextStyle(color: Colors.red[600]),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(16),
+                          ),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(16),
+                            )),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 2.0),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(16),
+                          ),
+                        )),
+                    style: TextStyle(color: Colors.red[600]),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                ElevatedButton(
+                  onPressed: _isLoading ? null : _signIn,
+                  child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.resolveWith(
+                      (states) => Colors.pink[100],
+                    ),
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.red[900]),
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
