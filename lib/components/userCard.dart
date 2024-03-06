@@ -4,7 +4,6 @@ import 'package:campuscupid/main.dart';
 import 'package:flutter/material.dart';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserCard extends StatefulWidget {
   final String? name;
