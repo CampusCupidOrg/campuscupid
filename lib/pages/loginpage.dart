@@ -104,14 +104,14 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 "Campus Cupid",
                 style: GoogleFonts.pacifico(
-                    fontSize: size.height * 0.08,
+                    fontSize: size.width * 0.19,
                     color: const Color.fromARGB(221, 27, 27, 27)),
               ),
               SizedBox(height: size.height * 0.14),
               Text(
                 "Sign Up",
                 style: GoogleFonts.pacifico(
-                    fontSize: size.height * 0.06,
+                    fontSize: size.width * 0.14,
                     color: const Color.fromARGB(221, 27, 27, 27)),
               ),
               SizedBox(height: size.height * 0.04),
