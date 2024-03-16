@@ -20,7 +20,7 @@ class _SearchState extends State<Search> {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.popAndPushNamed(context, '/crush');
           },
           child: const Icon(Icons.done),
         ),

@@ -35,12 +35,12 @@ class _CrushCardState extends State<CrushCard> {
   }
 }
 
-void _deleteCrush(String crush_id) async {
-  final response = await supabase
+void _deleteCrush(String crush_id) {
+  final response = supabase
       .from('matches')
       .delete()
       .eq('crush_id', crush_id)
       .eq('user_id', supabase.auth.currentUser!.id);
 
-  print(response);
+  print("deleted");
 }

@@ -15,6 +15,7 @@ class _CrushState extends State<Crush> {
   List<Map<String, String>>? _results;
   @override
   void initState() {
+    print("init");
     Timer.periodic(const Duration(seconds: 4), (timer) {
       _getCrushes().then((value) {
         setState(() {
@@ -53,13 +54,13 @@ class _CrushState extends State<Crush> {
           ),
         ]),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const Search()));
-        },
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(
+      //         context, MaterialPageRoute(builder: (context) => const Search()));
+      //   },
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 
