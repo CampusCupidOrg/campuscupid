@@ -21,24 +21,32 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.pink[100],
       appBar: AppBar(
+        backgroundColor: Colors.pink[100],
+        leading: null,
         elevation: 0.0,
+        toolbarHeight: size.height * 0.1,
         title: Text(
           'Campus Cupid',
           style: GoogleFonts.pacifico(
-              fontSize: 30, color: Color.fromARGB(221, 58, 58, 58)),
+              fontSize: size.width * 0.12,
+              color: const Color.fromARGB(221, 58, 58, 58)),
         ),
         centerTitle: true,
       ),
       body: SafeArea(
+          minimum: EdgeInsets.all(size.width * 0.05),
           child: <Widget>[
-        const Crush(),
-        const AccountPage()
-      ][currentPageIndex]),
+            const Crush(),
+            const AccountPage()
+          ][currentPageIndex]),
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentPageIndex,
         indicatorColor: Colors.pink[100],
+        animationDuration: const Duration(seconds: 1),
         onDestinationSelected: (int index) {
           // Respond to item tap
           if (mounted) {
@@ -57,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             label: 'Profile',
           ),
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.pink[200],
         elevation: 0.0,
       ),
       floatingActionButton: FloatingActionButton(
@@ -65,7 +73,11 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => const Search()));
         },
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.red[400],
+        child: const Icon(
+          Icons.food_bank_sharp,
+          color: Colors.black87,
+        ),
       ),
     );
   }

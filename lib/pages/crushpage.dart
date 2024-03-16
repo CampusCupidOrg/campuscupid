@@ -29,6 +29,7 @@ class _CrushState extends State<Crush> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.pink[100],
       body: Container(
         alignment: Alignment.center,
         child: Column(children: [
