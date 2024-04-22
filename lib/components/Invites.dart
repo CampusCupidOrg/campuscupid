@@ -16,28 +16,26 @@ class _InvitesState extends State<Invites> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ReorderableListView.builder(
-        shrinkWrap: true,
-        itemCount: crushes.length,
-        itemBuilder: (context, index) {
-          return CrushCard(
-            key: Key('$index'),
-            name: crushes[index],
-            rank: index + 1,
-            color: 'red',
-          );
-        },
-        onReorder: (oldRank, newRank) {
-          setState(() {
-            if (newRank > oldRank) {
-              newRank -= 1;
-            }
-            final item = crushes.removeAt(oldRank);
-            crushes.insert(newRank, item);
-          });
-        },
-      ),
+    return ReorderableListView.builder(
+      shrinkWrap: true,
+      itemCount: crushes.length,
+      itemBuilder: (context, index) {
+        return CrushCard(
+          key: Key('$index'),
+          name: crushes[index],
+          rank: index + 1,
+          available: false,
+        );
+      },
+      onReorder: (oldRank, newRank) {
+        setState(() {
+          if (newRank > oldRank) {
+            newRank -= 1;
+          }
+          final item = crushes.removeAt(oldRank);
+          crushes.insert(newRank, item);
+        });
+      },
     );
   }
 }
