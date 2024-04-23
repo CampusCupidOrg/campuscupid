@@ -1,4 +1,4 @@
-import 'package:campuscupid/models/crushes.dart';
+import 'package:campuscupid/models/crushes_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,6 +1,6 @@
 import 'package:campuscupid/components/Crushes.dart';
 import 'package:campuscupid/components/Invites.dart';
-import 'package:campuscupid/models/crushes.dart';
+import 'package:campuscupid/models/crushes_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,6 +1,5 @@
 import 'package:campuscupid/components/CrushCards.dart';
-import 'package:campuscupid/models/crushes.dart';
-import 'package:flutter/foundation.dart';
+import 'package:campuscupid/models/crushes_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,12 +11,6 @@ class Crushes extends StatefulWidget {
 }
 
 class CrushesState extends State<Crushes> {
-  // List<String> crushes = [
-  //   'Pusha',
-  //   'Shipla',
-  //   'Amdhu',
-  // ];
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
