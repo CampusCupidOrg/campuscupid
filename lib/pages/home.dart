@@ -16,10 +16,17 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-            child: const Text(
-          'Campus Cupid',
-        )),
+        title: Center(
+          child: Padding(
+            padding: EdgeInsets.only(left: size.width * 0.1),
+            child: Text(
+              style: TextStyle(
+                fontSize: size.height * 0.04,
+              ),
+              'Campus Cupid',
+            ),
+          ),
+        ),
       ),
       endDrawer: Drawer(
         shape: RoundedRectangleBorder(
@@ -49,9 +56,9 @@ class _HomeState extends State<Home> {
             ListTile(
               title: const Text('Logout'),
               onTap: () async {
-                final pref = await SharedPreferences.getInstance();
-                pref.remove('userId');
-                Navigator.of(context).pushNamed('/signup');
+                // final pref = await SharedPreferences.getInstance();
+                // pref.remove('userId');
+                Navigator.pushReplacementNamed(context, '/signup');
               },
             ),
           ],
@@ -59,14 +66,22 @@ class _HomeState extends State<Home> {
       ),
       body: Padding(
         padding: EdgeInsets.all(size.width * 0.06),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Crushes", style: TextStyle(fontSize: 20)),
-            Crushes(),
-            Text("Invites", style: TextStyle(fontSize: 20)),
-            Invites()
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Crushes",
+                style: TextStyle(fontSize: size.height * 0.04),
+              ),
+              Crushes(),
+              Text(
+                "Invites",
+                style: TextStyle(fontSize: size.height * 0.04),
+              ),
+              Invites()
+            ],
+          ),
         ),
       ),
     );

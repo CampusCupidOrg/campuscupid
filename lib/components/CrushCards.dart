@@ -19,13 +19,41 @@ class CrushCard extends StatefulWidget {
 class _CrushCardState extends State<CrushCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(8),
-      elevation: 4,
-      color: widget.available ? Colors.green : Colors.yellow,
-      child: ListTile(
-        title: Text(widget.name),
-        subtitle: Text('Rank: ${widget.rank}'),
+    Size size = MediaQuery.of(context).size;
+    return SingleChildScrollView(
+      child: Card(
+        margin: const EdgeInsets.all(8),
+        elevation: 4,
+        // color: widget.available ? Colors.green : Colors.yellow,
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: size.height * 0.04,
+            top: size.height * 0.04,
+            left: size.width * 0.04,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                widget.rank.toString(),
+                style: TextStyle(fontSize: size.height * 0.04),
+              ),
+              Text(
+                widget.name,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: size.height * 0.04),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Add your button onPressed logic here
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent, elevation: 0),
+                child: Icon(Icons.cancel_outlined),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
