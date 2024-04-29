@@ -1,9 +1,7 @@
 import 'package:campuscupid/components/Crushes.dart';
-import 'package:campuscupid/components/Invites.dart';
 import 'package:campuscupid/models/crushes_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -41,7 +39,7 @@ class _HomeState extends State<Home> {
                 height: size.height * 0.08,
                 color: Colors.pink,
                 child: const DrawerHeader(
-                  child: const Text('Settings'),
+                  child: Text('Settings'),
                 )),
             ListTile(
               title: const Text('Invites'),
@@ -66,6 +64,8 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+      floatingActionButton:
+          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
       body: Padding(
         padding: EdgeInsets.all(size.width * 0.06),
         child: SingleChildScrollView(
@@ -78,10 +78,10 @@ class _HomeState extends State<Home> {
               ),
               ChangeNotifierProvider(
                   create: (context) => crushesData(), child: Crushes()),
-              // Text(
-              //   "Invites",
-              //   style: TextStyle(fontSize: size.height * 0.04),
-              // ),
+              Text(
+                "Invites",
+                style: TextStyle(fontSize: size.height * 0.04),
+              ),
               // Invites()
             ],
           ),

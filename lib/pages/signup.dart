@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatefulWidget {
@@ -42,7 +43,9 @@ class _SignupState extends State<Signup> {
           ElevatedButton(
             child: const Text('Signup'),
             onPressed: () async {
-              Navigator.pushReplacementNamed(context, '/home');
+              final pref = await SharedPreferences.getInstance();
+              pref.setBool('loggedIn', true);
+              context.go('/home');
               // Navigator.push(context, MaterialPageRoute(builder: (context) {
               //   return const OPT();
               // }));
