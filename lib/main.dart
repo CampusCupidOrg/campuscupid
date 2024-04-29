@@ -31,8 +31,11 @@ GoRouter _appRoute = GoRouter(routes: <RouteBase>[
     },
   ),
   GoRoute(
-    path: '/signup',
+    path: '/api/users/login/',
     builder: (BuildContext context, GoRouterState state) {
+      // final pref = SharedPreferences.getInstance();
+      // pref.then((value) => value.setBool('loggedIn', true));
+
       return const Signup();
     },
   ),

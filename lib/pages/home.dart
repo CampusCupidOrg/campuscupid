@@ -43,22 +43,18 @@ class _HomeState extends State<Home> {
                 )),
             ListTile(
               title: const Text('Invites'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/invites');
-              },
+              onTap: () {},
             ),
             ListTile(
               title: const Text('Crushes'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/crushes');
-              },
+              onTap: () {},
             ),
             ListTile(
               title: const Text('Logout'),
               onTap: () async {
                 // final pref = await SharedPreferences.getInstance();
                 // pref.remove('userId');
-                Navigator.pushReplacementNamed(context, '/signup');
+                // Navigator.pushReplacementNamed(context, '/signup');
               },
             ),
           ],

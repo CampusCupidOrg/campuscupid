@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +11,7 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  final _emailController = TextEditingController();
+  // final _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,22 +31,24 @@ class _SignupState extends State<Signup> {
           const SizedBox(
             height: 50,
           ),
-          TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Email',
-            ),
-          ),
+          // TextField(
+          //   controller: _emailController,
+          //   decoration: const InputDecoration(
+          //     border: OutlineInputBorder(),
+          //     labelText: 'Email',
+          //   ),
+          // ),
           const SizedBox(
             height: 20,
           ),
           ElevatedButton(
             child: const Text('Signup'),
             onPressed: () async {
-              final pref = await SharedPreferences.getInstance();
-              pref.setBool('loggedIn', true);
-              context.go('/home');
+              final token = Dio()
+                  .get('https://api.campuscupid.com/api/users/login/:token');
+              // final pref = await SharedPreferences.getInstance();
+              // pref.setBool('loggedIn', true);
+              Navigator.pushReplacementNamed(context, '/home');
               // Navigator.push(context, MaterialPageRoute(builder: (context) {
               //   return const OPT();
               // }));
