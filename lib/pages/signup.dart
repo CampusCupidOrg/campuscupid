@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -11,7 +9,7 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  // final _emailController = TextEditingController();
+  final _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,27 +29,41 @@ class _SignupState extends State<Signup> {
           const SizedBox(
             height: 50,
           ),
-          // TextField(
-          //   controller: _emailController,
-          //   decoration: const InputDecoration(
-          //     border: OutlineInputBorder(),
-          //     labelText: 'Email',
-          //   ),
-          // ),
+          TextField(
+            controller: _emailController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Email',
+            ),
+          ),
           const SizedBox(
             height: 20,
           ),
           ElevatedButton(
             child: const Text('Signup'),
             onPressed: () async {
-              final token = Dio()
-                  .get('https://api.campuscupid.com/api/users/login/:token');
-              // final pref = await SharedPreferences.getInstance();
-              // pref.setBool('loggedIn', true);
-              Navigator.pushReplacementNamed(context, '/home');
-              // Navigator.push(context, MaterialPageRoute(builder: (context) {
-              //   return const OPT();
-              // }));
+              String email = _emailController.text;
+              RegExp regex =
+                  RegExp(r'^[a-zA-Z0-9]+[._]?[a-zA-Z0-9]+@srmist\.edu\.in$');
+              if (!regex.hasMatch(email)) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                        "Invalid email. Please enter a valid SRMIST email."),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              } else {
+                Dio dio = Dio();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Please verify your email"),
+                    duration: Duration(seconds: 5),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
             },
           ),
         ],
@@ -59,60 +71,3 @@ class _SignupState extends State<Signup> {
     ));
   }
 }
-
-// class OPT extends StatefulWidget {
-//   const OPT({super.key});
-
-//   @override
-//   State<OPT> createState() => _OPTState();
-// }
-
-// class _OPTState extends State<OPT> {
-//   final _otpController = TextEditingController();
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         body: Center(
-//       child: Hero(
-//         tag: "otp",
-//         child: Column(
-//           children: <Widget>[
-//             const SizedBox(
-//               height: 100,
-//             ),
-//             const Text(
-//               'Campus Cupid',
-//               style: TextStyle(
-//                 fontSize: 30,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             const SizedBox(
-//               height: 50,
-//             ),
-//             TextField(
-//               controller: _otpController,
-//               decoration: const InputDecoration(
-//                 border: OutlineInputBorder(),
-//                 labelText: 'Enter OTP',
-//               ),
-//             ),
-//             const SizedBox(
-//               height: 20,
-//             ),
-//             ElevatedButton(
-//               child: const Text('OTP'),
-//               onPressed: () async {
-//                 Navigator.pushReplacementNamed(context, '/home');
-//                 // final pref = await SharedPreferences.getInstance();
-//                 // final userId = _otpController.text.split('@')[0];
-//                 // pref.setString('userId', userId);
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     ));
-//     ;
-//   }
-// }

@@ -1,5 +1,6 @@
 import 'package:campuscupid/pages/home.dart';
 import 'package:campuscupid/pages/signup.dart';
+import 'package:campuscupid/pages/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +19,10 @@ GoRouter _appRoute = GoRouter(routes: <RouteBase>[
             (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
           if (snapshot.hasData) {
             final pref = snapshot.data!;
-            if (pref.getBool('loggedIn') == true) {
+            if (pref.getString('token') == true) {
+              if (false) {
+                return const Result();
+              }
               return const Home();
             } else {
               return const Signup();
@@ -31,13 +35,21 @@ GoRouter _appRoute = GoRouter(routes: <RouteBase>[
     },
   ),
   GoRoute(
-    path: '/api/users/login/',
+    path: '/api/users/login/:token',
     builder: (BuildContext context, GoRouterState state) {
-      // final pref = SharedPreferences.getInstance();
-      // pref.then((value) => value.setBool('loggedIn', true));
-
-      return const Signup();
+      String? token = state.pathParameters['token'];
+      return Verify(
+        token: token!,
+      );
     },
+  ),
+  GoRoute(
+    path: '/signup',
+    builder: (context, state) => const Signup(),
+  ),
+  GoRoute(
+    path: '/result',
+    builder: (context, state) => const Result(),
   ),
   GoRoute(
     path: '/home',
