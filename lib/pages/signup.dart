@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:floating_snackbar/floating_snackbar.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -13,8 +14,8 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const SizedBox(
             height: 100,
@@ -46,28 +47,26 @@ class _SignupState extends State<Signup> {
               RegExp regex =
                   RegExp(r'^[a-zA-Z0-9]+[._]?[a-zA-Z0-9]+@srmist\.edu\.in$');
               if (!regex.hasMatch(email)) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                        "Invalid email. Please enter a valid SRMIST email."),
-                    duration: Duration(seconds: 2),
-                    backgroundColor: Colors.red,
-                  ),
+                FloatingSnackBar(
+                  message: "Invalid email. Please enter a valid SRMIST email.",
+                  context: context,
+                  backgroundColor: Colors.pink,
+                  textStyle: const TextStyle(color: Colors.yellowAccent),
+                  duration: const Duration(milliseconds: 2000),
                 );
               } else {
-                Dio dio = Dio();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Please verify your email"),
-                    duration: Duration(seconds: 5),
-                    backgroundColor: Colors.green,
-                  ),
+                FloatingSnackBar(
+                  message: 'Please verify your email',
+                  context: context,
+                  backgroundColor: Colors.greenAccent,
+                  textStyle: const TextStyle(color: Colors.orange),
+                  duration: const Duration(milliseconds: 4000),
                 );
               }
             },
           ),
         ],
       ),
-    ));
+    );
   }
 }

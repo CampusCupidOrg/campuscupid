@@ -8,11 +8,10 @@ class CrushCard extends StatefulWidget {
   final bool available;
 
   const CrushCard(
-      {Key? key,
+      {super.key,
       required this.name,
       required this.rank,
-      required this.available})
-      : super(key: key);
+      required this.available});
 
   @override
   State<CrushCard> createState() => _CrushCardState();
@@ -22,12 +21,12 @@ class _CrushCardState extends State<CrushCard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Consumer<crushesData>(
+    return Consumer<CrushesData>(
       builder: (context, value, child) {
         return Card(
           margin: const EdgeInsets.all(8),
           elevation: 4,
-          // color: widget.available ? Colors.green : Colors.yellow,
+          shadowColor: Colors.pinkAccent,
           child: Padding(
             padding: EdgeInsets.only(
               bottom: size.height * 0.04,
@@ -48,12 +47,12 @@ class _CrushCardState extends State<CrushCard> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    final crushActions = context.read<crushesData>();
+                    final crushActions = context.read<CrushesData>();
                     crushActions.deleteCrush(widget.rank - 1);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent, elevation: 0),
-                  child: Icon(Icons.cancel_outlined),
+                  child: const Icon(Icons.cancel_outlined),
                 ),
               ],
             ),

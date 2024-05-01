@@ -1,6 +1,9 @@
 import 'package:campuscupid/components/Crushes.dart';
+import 'package:campuscupid/components/Invites.dart';
 import 'package:campuscupid/models/crushes_model.dart';
+import 'package:campuscupid/models/invites_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -54,7 +57,7 @@ class _HomeState extends State<Home> {
               onTap: () async {
                 // final pref = await SharedPreferences.getInstance();
                 // pref.remove('userId');
-                // Navigator.pushReplacementNamed(context, '/signup');
+                context.go('/signup');
               },
             ),
           ],
@@ -62,23 +65,24 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton:
           FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
-      body: Padding(
-        padding: EdgeInsets.all(size.width * 0.06),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.all(size.width * 0.06),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "Crushes",
                 style: TextStyle(fontSize: size.height * 0.04),
               ),
               ChangeNotifierProvider(
-                  create: (context) => crushesData(), child: Crushes()),
+                  create: (context) => CrushesData(), child: const Crushes()),
               Text(
                 "Invites",
                 style: TextStyle(fontSize: size.height * 0.04),
               ),
-              // Invites()
+              ChangeNotifierProvider(
+                  create: (context) => InvitesData(), child: const Invites()),
             ],
           ),
         ),

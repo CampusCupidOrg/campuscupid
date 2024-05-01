@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class crushesData extends ChangeNotifier {
-  List<String> _crushes = ['Rita', 'Seetha', 'Sherlin'];
+class CrushesData extends ChangeNotifier {
+  List<String> _crushes = ['Rita', 'Seetha', 'Sherlin', 'tina', 'Riya'];
 
   List<String> get crushes => _crushes;
 

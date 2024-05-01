@@ -1,4 +1,4 @@
-import 'package:campuscupid/components/CrushCards.dart';
+import 'package:campuscupid/components/CrushCard.dart';
 import 'package:campuscupid/models/crushes_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +14,7 @@ class CrushesState extends State<Crushes> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Consumer<crushesData>(builder: (context, value, child) {
+    return Consumer<CrushesData>(builder: (context, value, child) {
       return ReorderableListView.builder(
         proxyDecorator: (child, index, animation) => Material(
           color: Colors.transparent,
