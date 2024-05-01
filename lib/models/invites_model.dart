@@ -22,6 +22,7 @@ class InvitesData extends ChangeNotifier {
     final email = pref.getString('email');
     final response = await dio.get(
         'https://campuscupid.social/api/users/viewmatches/${email?.split('@')[0]}');
+    _invites.clear();
     response.data.forEach((crush) {
       crush['status'] == 'I' ? _invites.add(crush['m_id']) : null;
     });

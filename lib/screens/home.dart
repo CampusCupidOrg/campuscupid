@@ -2,6 +2,8 @@ import 'package:campuscupid/components/Crushes.dart';
 import 'package:campuscupid/components/Invites.dart';
 import 'package:campuscupid/models/crushes_model.dart';
 import 'package:campuscupid/models/invites_model.dart';
+import 'package:campuscupid/pages/about.dart';
+import 'package:dio/dio.dart';
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -40,16 +42,20 @@ class _HomeState extends State<Home> {
         width: size.width * 0.4,
         child: ListView(
           children: <Widget>[
-            Container(
+            SizedBox(
                 height: size.height * 0.08,
-                color: Colors.pink,
+                // color: Colors.pink,
                 child: const DrawerHeader(
                   child: Text('Settings'),
                 )),
             ListTile(
               title: const Text('About'),
               onTap: () {
-                context.go('/about');
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const About(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -83,7 +89,7 @@ class _HomeState extends State<Home> {
                   ElevatedButton(
                     onPressed: () {
                       FloatingSnackBar(
-                          message: "Canceledd",
+                          message: "Canceled",
                           context: context,
                           backgroundColor: Colors.pink,
                           duration: const Duration(milliseconds: 1500));
@@ -92,13 +98,71 @@ class _HomeState extends State<Home> {
                     child: const Text('Cancel'),
                   ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      final pref = await SharedPreferences.getInstance();
+                      final userId = pref.getString('email')?.split('@')[0];
+                      final dio = Dio();
+                      final response = await dio.post(
+                          'https://campuscupid.social/api/users/create/$userId/${_netId.text}/1');
+                      context.read<CrushesData>().getCrushes();
                       Navigator.of(context).pop();
-                      FloatingSnackBar(
-                          message: "${_netId.text}",
-                          context: context,
-                          backgroundColor: Colors.greenAccent,
-                          duration: const Duration(milliseconds: 1500));
+
+                      if (response.statusCode == 200) {
+                        FloatingSnackBar(
+                            message: "${_netId.text}",
+                            context: context,
+                            backgroundColor: Colors.greenAccent,
+                            duration: const Duration(milliseconds: 1500));
+                      } else if (response.statusCode == 202) {
+                        print("adfadf");
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                  title: const Text(
+                                      'No user found, want to send an invite?'),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        FloatingSnackBar(
+                                            message: "Cancelled",
+                                            context: context,
+                                            backgroundColor: Colors.pink,
+                                            duration: const Duration(
+                                                milliseconds: 1500));
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Don't Send Invite"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        await dio.post(
+                                            'https://campuscupid.social/api/users/invite/${_netId.text}@gmail.com');
+                                        context
+                                            .read<InvitesData>()
+                                            .getInvites();
+                                        FloatingSnackBar(
+                                            message:
+                                                "Sent Invite to ${_netId.text}",
+                                            context: context,
+                                            textColor: Colors.pinkAccent,
+                                            backgroundColor: Colors.greenAccent,
+                                            duration: const Duration(
+                                                milliseconds: 1500));
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Send Invite'),
+                                    )
+                                  ]);
+                            });
+                      } else {
+                        FloatingSnackBar(
+                            message: "Some Error Occured",
+                            context: context,
+                            textColor: Colors.orange,
+                            backgroundColor: Colors.pink,
+                            duration: const Duration(milliseconds: 1500));
+                      }
                       // IMPLEMENT INVITES
                     },
                     child: const Text('Submit'),
@@ -110,26 +174,23 @@ class _HomeState extends State<Home> {
         },
         child: const Icon(Icons.add),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(size.width * 0.06),
-          child: Column(
-            children: [
-              Text(
-                "Crushes",
-                style: TextStyle(fontSize: size.height * 0.04),
-              ),
-              ChangeNotifierProvider(
-                  create: (context) => CrushesData(), child: const Crushes()),
-              Text(
-                "Invites",
-                style: TextStyle(fontSize: size.height * 0.04),
-              ),
-              ChangeNotifierProvider(
-                  create: (context) => InvitesData(), child: const Invites()),
-            ],
-          ),
+      body: Padding(
+        padding: EdgeInsets.all(size.width * 0.06),
+        child: Column(
+          children: [
+            Text(
+              "Crushes",
+              style: TextStyle(fontSize: size.height * 0.04),
+            ),
+            ChangeNotifierProvider(
+                create: (context) => CrushesData(), child: const Crushes()),
+            Text(
+              "Invites",
+              style: TextStyle(fontSize: size.height * 0.04),
+            ),
+            ChangeNotifierProvider(
+                create: (context) => InvitesData(), child: const Invites()),
+          ],
         ),
       ),
     );

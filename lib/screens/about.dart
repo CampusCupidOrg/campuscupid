@@ -27,12 +27,11 @@ class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(email ?? 'No email available'),
-        ],
+      body: Center(
+        child: Text(
+          "Current User: $email",
+          style: TextStyle(fontSize: 24),
+        ),
       ),
     );
   }

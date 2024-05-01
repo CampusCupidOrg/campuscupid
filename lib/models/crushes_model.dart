@@ -18,9 +18,13 @@ class CrushesData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addCrush(String name) {
-    _crushes.add(name);
-    notifyListeners();
+  Future<void> addCrush(String name) async {
+    // final pref = await SharedPreferences.getInstance();
+    // final userId = pref.getString('email')?.split('@')[0];
+    // final dio = Dio();
+    // final response = await dio
+    //     .post('https://campuscupid.social/api/users/create/$userId/${name}');
+    // notifyListeners();
   }
 
   Future<List<String>> getCrushes() async {

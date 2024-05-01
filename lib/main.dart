@@ -1,7 +1,7 @@
-import 'package:campuscupid/pages/about.dart';
-import 'package:campuscupid/pages/home.dart';
-import 'package:campuscupid/pages/signup.dart';
-import 'package:campuscupid/pages/verification.dart';
+import 'package:campuscupid/screens/about.dart';
+import 'package:campuscupid/screens/home.dart';
+import 'package:campuscupid/screens/signup.dart';
+import 'package:campuscupid/screens/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
