@@ -45,22 +45,27 @@ class _SignupState extends State<Signup> {
             onPressed: () async {
               String email = _emailController.text;
               RegExp regex =
-                  RegExp(r'^[a-zA-Z0-9]+[._]?[a-zA-Z0-9]+@srmist\.edu\.in$');
-              if (!regex.hasMatch(email)) {
-                FloatingSnackBar(
-                  message: "Invalid email. Please enter a valid SRMIST email.",
-                  context: context,
-                  backgroundColor: Colors.pink,
-                  textStyle: const TextStyle(color: Colors.yellowAccent),
-                  duration: const Duration(milliseconds: 2000),
-                );
-              } else {
+                  // RegExp(r'^[a-zA-Z0-9]+[._]?[a-zA-Z0-9]+@srmist\.edu\.in$');
+                  RegExp(
+                      r'^[a-zA-Z0-9]+[._]?[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+');
+              if (regex.hasMatch(email)) {
+                final dio = Dio();
+                await dio.get(
+                    'https://campuscupid.social/api/users/sendmagiclink/$email');
                 FloatingSnackBar(
                   message: 'Please verify your email',
                   context: context,
                   backgroundColor: Colors.greenAccent,
                   textStyle: const TextStyle(color: Colors.orange),
                   duration: const Duration(milliseconds: 4000),
+                );
+              } else {
+                FloatingSnackBar(
+                  message: "Invalid email. Please enter a valid SRMIST email.",
+                  context: context,
+                  backgroundColor: Colors.pink,
+                  textStyle: const TextStyle(color: Colors.yellowAccent),
+                  duration: const Duration(milliseconds: 2000),
                 );
               }
             },

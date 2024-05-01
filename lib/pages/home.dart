@@ -2,9 +2,11 @@ import 'package:campuscupid/components/Crushes.dart';
 import 'package:campuscupid/components/Invites.dart';
 import 'package:campuscupid/models/crushes_model.dart';
 import 'package:campuscupid/models/invites_model.dart';
+import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -45,26 +47,69 @@ class _HomeState extends State<Home> {
                   child: Text('Settings'),
                 )),
             ListTile(
-              title: const Text('Invites'),
-              onTap: () {},
-            ),
-            ListTile(
-              title: const Text('Crushes'),
-              onTap: () {},
+              title: const Text('About'),
+              onTap: () {
+                context.go('/about');
+              },
             ),
             ListTile(
               title: const Text('Logout'),
               onTap: () async {
-                // final pref = await SharedPreferences.getInstance();
-                // pref.remove('userId');
+                final pref = await SharedPreferences.getInstance();
+                pref.remove('email');
+                pref.remove('token');
                 context.go('/signup');
               },
             ),
           ],
         ),
       ),
-      floatingActionButton:
-          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              final _netId = TextEditingController();
+              return AlertDialog(
+                title: const Text('Search People'),
+                content: TextField(
+                  controller: _netId,
+                  textAlign: TextAlign.center,
+                  decoration: const InputDecoration(
+                    labelText: 'NetId',
+                  ),
+                ),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      FloatingSnackBar(
+                          message: "Canceledd",
+                          context: context,
+                          backgroundColor: Colors.pink,
+                          duration: const Duration(milliseconds: 1500));
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      FloatingSnackBar(
+                          message: "${_netId.text}",
+                          context: context,
+                          backgroundColor: Colors.greenAccent,
+                          duration: const Duration(milliseconds: 1500));
+                      // IMPLEMENT INVITES
+                    },
+                    child: const Text('Submit'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(

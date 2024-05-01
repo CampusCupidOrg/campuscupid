@@ -1,3 +1,4 @@
+import 'package:campuscupid/pages/about.dart';
 import 'package:campuscupid/pages/home.dart';
 import 'package:campuscupid/pages/signup.dart';
 import 'package:campuscupid/pages/verification.dart';
@@ -13,21 +14,14 @@ GoRouter _appRoute = GoRouter(routes: <RouteBase>[
   GoRoute(
     path: '/',
     builder: (BuildContext context, GoRouterState state) {
-      // return const Home();
-      return FutureBuilder<SharedPreferences>(
+      return FutureBuilder(
         future: SharedPreferences.getInstance(),
         builder:
             (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+          final pref = snapshot.data;
+          String? email = pref?.getString('email');
           if (snapshot.hasData) {
-            final pref = snapshot.data!;
-            if (pref.getString('token') == true) {
-              if (false) {
-                return const Result();
-              }
-              return const Home();
-            } else {
-              return const Signup();
-            }
+            return email != null ? const Home() : const Signup();
           } else {
             return const Signup();
           }
@@ -56,6 +50,12 @@ GoRouter _appRoute = GoRouter(routes: <RouteBase>[
     path: '/home',
     builder: (BuildContext context, GoRouterState state) {
       return const Home();
+    },
+  ),
+  GoRoute(
+    path: '/about',
+    builder: (BuildContext context, GoRouterState state) {
+      return const About();
     },
   ),
 ]);

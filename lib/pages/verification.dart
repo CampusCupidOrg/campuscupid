@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Verify extends StatelessWidget {
@@ -10,13 +12,18 @@ class Verify extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('You have been logged in successfully!'),
+            const Text('You have been logged in successfully!'),
             TextButton(
               onPressed: () async {
                 final pref = await SharedPreferences.getInstance();
+                final dio = Dio();
                 pref.setString('token', token);
-                Navigator.pushReplacementNamed(context, '/home');
+                Response response = await dio
+                    .get('https://campuscupid.social/api/users/login/$token');
+                pref.setString('email', response.data['payload'].toString());
+                context.go('/home');
               },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.pinkAccent,

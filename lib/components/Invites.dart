@@ -16,27 +16,42 @@ class _InvitesState extends State<Invites> {
     Size size = MediaQuery.of(context).size;
     return Consumer<InvitesData>(
       builder: (context, value, child) {
-        return ReorderableListView.builder(
-            proxyDecorator: (child, index, animation) => Material(
-                  color: Colors.transparent,
-                  child: Card(
-                    child: Center(
-                      child: Text(
-                        value.invites[index],
-                        style: TextStyle(fontSize: size.height * 0.04),
-                      ),
+        final inviteActions = context.read<InvitesData>();
+        return FutureBuilder(
+          future: inviteActions.getInvites(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return ReorderableListView.builder(
+              proxyDecorator: (child, index, animation) => Material(
+                color: Colors.transparent,
+                child: Card(
+                  child: Center(
+                    child: Text(
+                      value.invites[index],
+                      style: TextStyle(fontSize: size.height * 0.04),
                     ),
                   ),
                 ),
-            shrinkWrap: true,
-            itemCount: value.invites.length,
-            itemBuilder: (context, index) {
-              return InviteCard(
-                key: Key('$index'),
-                name: value.invites[index],
-              );
-            },
-            onReorder: (oldRank, newRank) {});
+              ),
+              shrinkWrap: true,
+              itemCount: value.invites.length,
+              itemBuilder: (context, index) {
+                return InviteCard(
+                  key: Key('$index'),
+                  name: value.invites[index],
+                );
+              },
+              onReorder: (oldRank, newRank) {
+                setState(() {
+                  if (newRank > oldRank) {
+                    newRank -= 1;
+                  }
+                  final item = value.invites.removeAt(oldRank);
+                  value.invites.insert(newRank, item);
+                });
+              },
+            );
+          },
+        );
       },
     );
   }
